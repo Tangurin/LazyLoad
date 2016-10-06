@@ -39,10 +39,9 @@ var LazyLoad = {
                 visible = LazyLoad.isVisible($element);
 
                 if (visible) {
-                    LazyLoad.loadElement($element);
+                    LazyLoad.handleElement($element);
                     continue;
                 }
-
                 LazyLoad.elements[i] = $element;
                 LazyLoad.offsets[i] = $element.offset().top + LazyLoad.offset;
             }
