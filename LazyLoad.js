@@ -88,12 +88,12 @@ var LazyLoad = {
         LazyLoad.loadElement($element);
     },
     loadElement: function($element) {
-        var imageName = $element.data('image') || false;
-        if ($element.prop('tagName') != 'IMG' || imageName == false) {
+        var path = $element.data('lazyload') || false;
+        if ($element.prop('tagName') != 'IMG' || path == false || $element.hasClass('imageLoaded')) {
             return false;
         }
 
-        $element.attr('src', imageName);
+        $element.attr('src', path).addClass('imageLoaded');
     },
     debug: function(str) {
         if (LazyLoad.debug) {
