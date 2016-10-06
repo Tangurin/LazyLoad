@@ -1,7 +1,7 @@
 var LazyLoad = {
     elements: [],
     elementLength: 0,
-    offset: 100,
+    offset: -100,
     offsets: [],
     scrollElement: null,
     windowHeight: 0,
