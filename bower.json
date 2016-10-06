@@ -1,0 +1,21 @@
+{
+  "name": "LazyLoad",
+  "main": "LazyLoad.js",
+  "homepage": "https://github.com/Tangurin/LazyLoad",
+  "authors": [
+    "Albert <albert@engvie.se>"
+  ],
+  "description": "JavaScript Class for lazyload",
+  "keywords": [
+    "LazyLoad"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
