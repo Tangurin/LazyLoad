@@ -32,7 +32,6 @@ var LazyLoad = {
         var $elements = $('img[data-lazyLoad], .lazyLoadWrapper');
         var elementLength = $elements.length;
         if (elementLength > 0) {
-            LazyLoad.elementLength = elementLength;
             var $element;
             var visible;
             for (var i = 0; i < elementLength; i++) {
@@ -59,17 +58,18 @@ var LazyLoad = {
     },
     listenForScroll: function() {
         ScrollHandler.initialize(AnimateOnScroll.scrollElement);
-        var offsets = LazyLoad.offsets;
+        
+        var elementLength = LazyLoad.offsets.length;
         LazyLoad.scrollElement.on('ScrollHandler-Scroll', function() {
             var $this = $(this);
             var currentScroll = $this.scrollTop();
             var collision = currentScroll + LazyLoad.windowHeight;
             var $element;
             var offset = 0;
-            for (i = 0; i < LazyLoad.elementLength; i++) {
+            for (i = 0; i < elementLength; i++) {
                 offset = LazyLoad.offsets[i];
                 if (collision > offset) {
-                    loadElement(LazyLoad.elements[i]);
+                    LazyLoad.loadElement(LazyLoad.elements[i]);
                     delete LazyLoad.elements[i];
                     delete LazyLoad.offsets[i];
                 }
