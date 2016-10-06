@@ -59,10 +59,8 @@ var LazyLoad = {
     },
     listenForScroll: function() {
         ScrollHandler.initialize(AnimateOnScroll.scrollElement);
-        console.log(ScrollHandler);
         var offsets = LazyLoad.offsets;
         LazyLoad.scrollElement.on('ScrollHandler-Scroll', function() {
-            console.log('a');
             var $this = $(this);
             var currentScroll = $this.scrollTop();
             var collision = currentScroll + LazyLoad.windowHeight;
@@ -79,7 +77,6 @@ var LazyLoad = {
         });
     },
     handleElement: function($element) {
-        console.log($element);
         if ($element.hasClass('lazyLoadWrapper')) {
             var $images = $('img', $element);
             $.each($images, function(key) {
