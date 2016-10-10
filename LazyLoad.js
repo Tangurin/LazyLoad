@@ -1,4 +1,5 @@
 var LazyLoad = {
+    active: false,
     elements: [],
     elementLength: 0,
     offset: -100,
@@ -9,6 +10,9 @@ var LazyLoad = {
     debug: true,
     options: {},
     initialize: function(scrollElement) {
+        if (LazyLoad.active) {
+            return true;
+        }
         var $window = $(window);
         LazyLoad.windowHeight = $window.height();
         LazyLoad.windowInnerHeight = $window.innerHeight();
@@ -23,6 +27,7 @@ var LazyLoad = {
 
         //Let content load before loading elements
         setTimeout(LazyLoad.initializeElements, 400)
+        LazyLoad.active = true;
     },
     initializeElements: function() {
         if (!LazyLoad.setElements()) return false;
