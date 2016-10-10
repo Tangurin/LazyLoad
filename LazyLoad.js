@@ -7,8 +7,8 @@ var LazyLoad = {
     scrollElement: null,
     windowHeight: 0,
     windowInnerHeight: 0,
-    debug: true,
     options: {},
+    debug: true,
     initialize: function(scrollElement) {
         if (LazyLoad.active) {
             return true;
