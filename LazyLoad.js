@@ -31,6 +31,7 @@ var LazyLoad = {
     },
     initializeElements: function() {
         if (!LazyLoad.setElements()) return false;
+        $(document).trigger('LazyLoadInitialized');
         LazyLoad.listenForScroll();
     },
     setElements: function() {
