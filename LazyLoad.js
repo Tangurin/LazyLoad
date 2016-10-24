@@ -57,7 +57,7 @@ var LazyLoad = {
       return isVisible;
     },
     listenForScroll: function() {
-        ScrollHandler.initialize(AnimateOnScroll.scrollElement);
+        ScrollHandler.initialize(LazyLoad.scrollElement);
         
         var elementLength = LazyLoad.offsets.length;
         LazyLoad.scrollElement.on('ScrollHandler-Scroll', function() {
