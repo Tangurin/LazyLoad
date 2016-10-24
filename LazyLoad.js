@@ -103,5 +103,5 @@ var LazyLoad = {
 };
 
 $(function() {
-    LazyLoad.initialize($('.slidebarMainContent'));
+    LazyLoad.initialize($('#slidebarMainContent'));
 });
