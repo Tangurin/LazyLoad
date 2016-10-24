@@ -30,9 +30,11 @@ var LazyLoad = {
         LazyLoad.active = true;
     },
     initializeElements: function() {
-        if (!LazyLoad.setElements()) return false;
+        if (LazyLoad.setElements()) {
+            LazyLoad.listenForScroll();
+        }
         $(document).trigger('LazyLoadInitialized');
-        LazyLoad.listenForScroll();
+        return false;
     },
     setElements: function() {
         var $elements = $('img[data-lazyLoad], .lazyLoadWrapper');
