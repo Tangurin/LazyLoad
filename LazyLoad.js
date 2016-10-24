@@ -18,13 +18,6 @@ var LazyLoad = {
         LazyLoad.windowInnerHeight = $window.innerHeight();
         LazyLoad.scrollElement = scrollElement || $window;
 
-        LazyLoad.options = {
-            opacity: 1,
-            top: 0,
-            scale: 1,
-            rotate: 0,
-        };
-
         //Let content load before loading elements
         setTimeout(LazyLoad.initializeElements, 400)
         LazyLoad.active = true;
