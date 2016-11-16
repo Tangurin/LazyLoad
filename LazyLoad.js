@@ -8,8 +8,11 @@ var LazyLoad = {
     windowInnerHeight: 0,
     options: {},
     debug: true,
-    initialize: function() {
+    onLoadCallback: null,
+    initialize: function(onLoadCallback) {
+        LazyLoad.onLoadCallback = onLoadCallback;
         if (LazyLoad.active) {
+            LazyLoad.runOnLoadCallback(onLoadCallback);
             return true;
         }
         var $window = $(window);
@@ -24,7 +27,7 @@ var LazyLoad = {
         if (LazyLoad.setElements()) {
             LazyLoad.listenForScroll();
         }
-        $(document).trigger('LazyLoadInitialized');
+        LazyLoad.runOnLoadCallback();
         return false;
     },
     setElements: function() {
@@ -89,6 +92,12 @@ var LazyLoad = {
         }
 
         $element.attr('src', path).addClass('imageLoaded');
+    },
+    runOnLoadCallback: function(callback) {
+        var callback = typeof callback == 'function' ? callback : LazyLoad.onLoadCallback;
+        if (typeof callback == 'function') {
+            callback();
+        }
     },
     debug: function(str) {
         if (LazyLoad.debug) {
