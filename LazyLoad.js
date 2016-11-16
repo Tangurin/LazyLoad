@@ -4,35 +4,28 @@ var LazyLoad = {
     elementLength: 0,
     offset: -100,
     offsets: [],
-    scrollElement: null,
     windowHeight: 0,
     windowInnerHeight: 0,
     options: {},
     debug: true,
-    initialize: function(scrollElement) {
+    initialize: function() {
         if (LazyLoad.active) {
             return true;
         }
         var $window = $(window);
         LazyLoad.windowHeight = $window.height();
         LazyLoad.windowInnerHeight = $window.innerHeight();
-        LazyLoad.scrollElement = scrollElement || $window;
-
-        LazyLoad.options = {
-            opacity: 1,
-            top: 0,
-            scale: 1,
-            rotate: 0,
-        };
 
         //Let content load before loading elements
         setTimeout(LazyLoad.initializeElements, 400)
         LazyLoad.active = true;
     },
     initializeElements: function() {
-        if (!LazyLoad.setElements()) return false;
+        if (LazyLoad.setElements()) {
+            LazyLoad.listenForScroll();
+        }
         $(document).trigger('LazyLoadInitialized');
-        LazyLoad.listenForScroll();
+        return false;
     },
     setElements: function() {
         var $elements = $('img[data-lazyLoad], .lazyLoadWrapper');
@@ -62,11 +55,8 @@ var LazyLoad = {
       return isVisible;
     },
     listenForScroll: function() {
-        ScrollHandler.initialize(AnimateOnScroll.scrollElement);
-        
         var elementLength = LazyLoad.offsets.length;
-        LazyLoad.scrollElement.on('ScrollHandler-Scroll', function() {
-            var $this = $(this);
+        ScrollHandler.onScroll(function($this) {
             var currentScroll = $this.scrollTop();
             var collision = currentScroll + LazyLoad.windowHeight;
             var $element;
@@ -106,7 +96,3 @@ var LazyLoad = {
         }
     }
 };
-
-$(function() {
-    LazyLoad.initialize($('#slidebarMainContent'));
-});
