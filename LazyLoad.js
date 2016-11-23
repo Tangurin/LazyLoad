@@ -69,7 +69,7 @@
                 var collision = currentScroll + LazyLoad.windowHeight;
                 var $element;
                 var offset = 0;
-                for (i = 0; i < elementLength; i++) {
+                for (var i = 0; i < elementLength; i++) {
                     offset = LazyLoad.offsets[i];
                     if (collision > offset) {
                         LazyLoad.loadElement(LazyLoad.elements[i]);
