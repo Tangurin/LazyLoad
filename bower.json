@@ -9,6 +9,11 @@
   "keywords": [
     "LazyLoad"
   ],
+  "dependencies": {
+    "jquery": ">=1.7.1",
+    "ScrollHandler": "https://github.com/Tangurin/ScrollHandler.git",
+    "ResizeHandler": "https://github.com/Tangurin/ResizeHandler.git"
+  },
   "license": "MIT",
   "private": true,
   "ignore": [
