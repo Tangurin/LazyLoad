@@ -4,7 +4,7 @@
     LazyLoad
     ===========================*/
     var LazyLoad = {
-        active: false,
+        initialized: false,
         elements: [],
         elementLength: 0,
         offset: -100,
@@ -16,68 +16,42 @@
         onLoadCallback: null,
         initialize: function(onLoadCallback) {
             LazyLoad.onLoadCallback = onLoadCallback;
-            if (LazyLoad.active) {
+            if (LazyLoad.initialized) {
                 LazyLoad.runOnLoadCallback(onLoadCallback);
                 return true;
             }
-            var $window = $(window);
-            LazyLoad.windowHeight = $window.height();
-            LazyLoad.windowInnerHeight = $window.innerHeight();
+
+            LazyLoad.initialized = true;
 
             //Let content load before loading elements
-            setTimeout(LazyLoad.initializeElements, 400)
-            LazyLoad.active = true;
-        },
-        initializeElements: function() {
-            if (LazyLoad.setElements()) {
-                LazyLoad.listenForScroll();
-            }
-            LazyLoad.runOnLoadCallback();
-            return false;
-        },
-        setElements: function() {
-            var $elements = $('img[data-lazyLoad], .lazyLoadWrapper');
-            var elementLength = $elements.length;
-            if (elementLength > 0) {
-                var $element;
-                var visible;
-                for (var i = 0; i < elementLength; i++) {
-                    $element = $($elements[i]);
-                    visible = LazyLoad.isVisible($element);
-
-                    if (visible) {
-                        LazyLoad.handleElement($element);
-                        continue;
-                    }
-                    LazyLoad.elements[i] = $element;
-                    LazyLoad.offsets[i] = $element.offset().top + LazyLoad.offset;
+            setTimeout(function() {
+                var $elements = $('img[data-lazyLoad], .lazyLoadWrapper');
+                if ($elements.length > 0) {
+                    var elements = [];
+                    $elements.each(function() {
+                        var $element = $(this);
+                        if ($element.parents('.lazyLoadWrapper').length > 0) {
+                            return true;
+                        }
+                        $element.options = {
+                            removeWhenVisible: true,
+                            removeWhenAlreadyVisible: true,
+                            extraOffset: -100,
+                            callbacks: {
+                                afterVisible: function($element) {
+                                    LazyLoad.handleElement($element);
+                                },
+                                alreadyVisible: function($element) {
+                                    LazyLoad.handleElement($element);
+                                }
+                            }
+                        };
+                        elements.push($element);
+                    });
+                    ScrollCollisionHandler.initialize(elements);
                 }
-                return true;
-            }
-            return false;
-        },
-        isVisible: function($element) {
-          var rect = $element[0].getBoundingClientRect();
-          var viewHeight = Math.max(LazyLoad.windowHeight, LazyLoad.windowInnerHeight);
-          var isVisible = !(rect.bottom < 0 || rect.top - viewHeight >= 0);
-          return isVisible;
-        },
-        listenForScroll: function() {
-            var elementLength = LazyLoad.offsets.length;
-            ScrollHandler.onScroll(function($this) {
-                var currentScroll = $this.scrollTop();
-                var collision = currentScroll + LazyLoad.windowHeight;
-                var $element;
-                var offset = 0;
-                for (var i = 0; i < elementLength; i++) {
-                    offset = LazyLoad.offsets[i];
-                    if (collision > offset) {
-                        LazyLoad.loadElement(LazyLoad.elements[i]);
-                        delete LazyLoad.elements[i];
-                        delete LazyLoad.offsets[i];
-                    }
-                }
-            });
+            }, 400)
+            LazyLoad.runOnLoadCallback(onLoadCallback);
         },
         handleElement: function($element) {
             if ($element.hasClass('lazyLoadWrapper')) {
