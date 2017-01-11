@@ -12,7 +12,7 @@
         windowHeight: 0,
         windowInnerHeight: 0,
         options: {},
-        debug: true,
+        debugMode: true,
         onLoadCallback: null,
         initialize: function(onLoadCallback) {
             LazyLoad.onLoadCallback = onLoadCallback;
@@ -79,7 +79,7 @@
             }
         },
         debug: function(str) {
-            if (LazyLoad.debug) {
+            if (LazyLoad.debugMode) {
                 console.log(str);
             }
         }
